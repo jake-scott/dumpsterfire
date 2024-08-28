@@ -15,3 +15,5 @@ jobs:
 
       - name: some thing
         uses: jake-scott/go-test-coverage@main
+        with:
+          config: ./.testcoverage.yml
