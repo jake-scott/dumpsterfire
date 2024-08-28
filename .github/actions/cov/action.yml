@@ -1,0 +1,134 @@
+name: go-test-coverage
+author: vladopajic
+description: go-test-coverage is tool which reports issues when test coverage is below set threshold.
+inputs:
+  config:
+    description: Path of configuration file.
+    required: false
+    default: ""
+    type: string
+  profile:
+    description: Path of coverage profile file.
+    required: false
+    default: ""
+    type: string
+  local-prefix:
+    description: When specified reported file paths will not contain local prefix in the output.
+    required: false
+    default: ""
+    type: string
+  working-directory:
+    description: |
+      Relative path to the working directory Staticcheck should be executed in.
+      This is useful when dealing with multiple projects within one repository.
+    required: false
+    default: "."
+    type: string
+  threshold-file:
+    description: The minimum coverage that each file should have.
+    required: false
+    default: -1
+    type: number
+  threshold-package:
+    description: The minimum coverage that each package should have.
+    required: false
+    default: -1
+    type: number
+  threshold-total:
+    description: The minimum total coverage project should have.
+    required: false
+    default: -1
+    type: number
+  badge-file-name:
+    description: When specified coverage badge will be created and saved to this file.
+    required: false
+    default: ""
+    type: string
+  cdn-secret:
+    description: CDN API secret. When specified action will create and upload badge to CDN.
+    required: false
+    default: ""
+    type: string
+  cdn-key:
+    description: CDN API key.
+    required: false
+    default: ""
+    type: string
+  cdn-region:
+    description: CDN region.
+    required: false
+    default: ""
+    type: string
+  cdn-endpoint:
+    description: CDN endpoint. 
+    required: false
+    default: ""
+    type: string
+  cdn-file-name:
+    description: File name (including path) of badge on CDN.
+    required: false
+    default: ""
+    type: string
+  cdn-bucket-name:
+    description: CDN bucket name.
+    required: false
+    default: ""
+    type: string
+  cdn-force-path-style:
+    description: CDN force path style.
+    required: false
+    default: false
+    type: boolean
+  git-token:
+    description: GitHub token. When specified action will create and upload badge to GitHub repository.
+    required: false
+    default: ""
+    type: string
+  git-repository:
+    description: GitHub repository in format {owner}/{repository} where badge is stored.
+    required: false
+    default: ${{ github.repository }}
+    type: string
+  git-branch:
+    description: Branch where badge is stored.
+    required: false
+    default: ""
+    type: string
+  git-file-name:
+    description: File name (including path) of badge stored to specified repository.
+    required: false
+    default: .badges/${{ github.ref_name }}/coverage.svg
+    type: string
+outputs:
+  total-coverage:
+    description: Holds total coverage value.
+  badge-text:
+    description: Deprecated! Holds badge text value.
+  badge-color:
+    description: Deprecated! Holds badge color value.
+runs:
+  using: docker
+  args:
+    - --config=${{ inputs.config || '''''' }}
+    - --profile=${{ inputs.profile || '''''' }}
+    - --github-action-output=true
+    - --local-prefix=${{ inputs.local-prefix || '''''' }}
+    - --threshold-file=${{ inputs.threshold-file }}
+    - --threshold-package=${{ inputs.threshold-package }}
+    - --threshold-total=${{ inputs.threshold-total }}
+    - --badge-file-name=${{ inputs.badge-file-name || '''''' }}
+    - --cdn-key=${{ inputs.cdn-key || '''''' }}
+    - --cdn-secret=${{ inputs.cdn-secret || '''''' }}
+    - --cdn-region=${{ inputs.cdn-region || '''''' }}
+    - --cdn-endpoint=${{ inputs.cdn-endpoint || '''''' }}
+    - --cdn-file-name=${{ inputs.cdn-file-name || '''''' }}
+    - --cdn-bucket-name=${{ inputs.cdn-bucket-name || '''''' }}
+    - --cdn-force-path-style=${{ inputs.cdn-force-path-style }}
+    - --git-token=${{ inputs.git-token || '''''' }}
+    - --git-branch=${{ inputs.git-branch || '''''' }}
+    - --git-repository=${{ inputs.git-repository || ''''''}}
+    - --git-file-name=${{ inputs.git-file-name || '''''' }}
+    - --working-directory=${{ inputs.working-directory }}
+branding:
+  icon: 'code'
+  color: 'blue'

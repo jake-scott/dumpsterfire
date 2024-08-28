@@ -1,0 +1,17 @@
+name: Foo
+
+on:
+  push:
+
+permissions:
+  contents: read
+
+jobs:
+
+  foo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: some thing
+        uses: jake-scott/go-test-coverage@main
